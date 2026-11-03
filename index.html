@@ -2253,7 +2253,13 @@ body.modal-open { overflow: hidden; }
         <h3 id="modalTitle">申请 StorNexus 内测</h3>
         <p>填写信息后我们会打开你的邮件客户端，点击发送即可完成申请。内测名额分批开放。</p>
       </div>
-      <form class="modal-form" id="betaForm" novalidate>
+      <!-- 提交到 FormSubmit（服务端收件转发到邮箱）。换收件邮箱时改 action 里的地址。 -->
+      <form class="modal-form" id="betaForm" action="https://formsubmit.co/2101211233@qq.com" method="POST" novalidate>
+        <input type="hidden" name="_captcha" value="false" />
+        <input type="hidden" name="_template" value="table" />
+        <input type="hidden" name="_subject" id="betaSubject" value="StorNexus 内测申请" />
+        <input type="hidden" name="_replyto" id="betaReply" value="" />
+        <input type="hidden" name="_next" id="betaNext" value="" />
         <div class="field">
           <label for="betaName">姓名</label>
           <input id="betaName" name="name" type="text" placeholder="请输入你的姓名" autocomplete="name" required />
@@ -2369,6 +2375,9 @@ body.modal-open { overflow: hidden; }
   var emailInput = document.getElementById('betaEmail');
   var mailFallback = document.getElementById('mailFallback');
   var mailFallbackLink = document.getElementById('mailFallbackLink');
+  var betaSubjectInput = document.getElementById('betaSubject');
+  var betaReplyInput = document.getElementById('betaReply');
+  var betaNextInput = document.getElementById('betaNext');
   var lastFocused = null;
 
   function openModal(event) {
@@ -2408,68 +2417,29 @@ body.modal-open { overflow: hidden; }
   });
 
   betaForm.addEventListener('submit', function (event) {
-    event.preventDefault();
     if (!betaForm.checkValidity()) {
+      event.preventDefault();
       betaForm.reportValidity();
       return;
     }
 
+    // 验证通过：补齐隐藏字段后让浏览器**自然提交**（整页导航）到 FormSubmit。
+    // 不用 fetch：其 ajax 端点有 Cloudflare 防护，浏览器内 fetch 会被拦
+    // （net::ERR_FAILED，2026-11-03 实测）；传统表单导航能透明通过。
     var name = nameInput.value.trim();
     var email = emailInput.value.trim();
-    var subject = (lang === 'en' ? 'StorNexus beta access - ' : 'StorNexus 内测申请 - ') + name;
-    var body = lang === 'en'
-      ? 'Name: ' + name + '\nEmail: ' + email + '\n\nRequesting StorNexus beta access.'
-      : '姓名：' + name + '\n邮箱：' + email + '\n\n申请 StorNexus 内测。';
-
-    // 仅作为服务端提交失败时的兜底：给出一条可直接发送的邮件链接。
-    mailFallbackLink.href = 'mailto:2101211233@qq.com'
-      + '?subject=' + encodeURIComponent(subject)
-      + '&body=' + encodeURIComponent(body);
-
-    var submitBtn = betaForm.querySelector('button[type="submit"]');
-    var idleLabel = submitBtn.innerHTML;
-    submitBtn.disabled = true;
-    submitBtn.textContent = lang === 'en' ? 'Submitting...' : '提交中…';
-
-    function restoreButton() {
-      submitBtn.disabled = false;
-      submitBtn.innerHTML = idleLabel;
-    }
-    function fail() {
-      restoreButton();
-      formView.hidden = false;
-      successView.classList.remove('is-visible');
-      mailFallback.hidden = false;
-    }
-
-    // 提交到 FormSubmit，由服务端转发到指定邮箱 —— 不依赖访客是否装了邮件客户端。
-    // 首次提交会向收件邮箱发一封确认邮件，点击确认后激活（一次性动作）。
-    fetch('https://formsubmit.co/ajax/' + FORM_TO, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-      body: JSON.stringify({
-        _subject: subject,
-        _captcha: 'false',
-        _template: 'table',
-        _replyto: email,
-        name: name,
-        email: email,
-        message: body,
-      }),
-    })
-      .then(function (res) { return res.json(); })
-      .then(function (data) {
-        restoreButton();
-        if (data && String(data.success) === 'true') {
-          mailFallback.hidden = true;
-          formView.hidden = true;
-          successView.classList.add('is-visible');
-        } else {
-          fail();
-        }
-      })
-      .catch(fail);
+    betaSubjectInput.value = (lang === 'en' ? 'StorNexus beta access - ' : 'StorNexus 内测申请 - ') + name;
+    betaReplyInput.value = email;
+    betaNextInput.value = location.origin + location.pathname + '?submitted=1#beta';
+    // 不 preventDefault —— 表单自然提交，FormSubmit 收信后按 _next 带回本站。
   });
+
+  /* 从 FormSubmit 跳回（?submitted=1）时直接展示成功视图。 */
+  if (new URLSearchParams(location.search).get('submitted') === '1') {
+    openModal();
+    formView.hidden = true;
+    successView.classList.add('is-visible');
+  }
   /* ---------- Client console screenshots ---------- */
   var SHOTS = {
     overview: { t: '概览', d: '空间用量、存储状态、本月预估费用与最近文件，一屏看清。' },
@@ -2506,9 +2476,8 @@ body.modal-open { overflow: hidden; }
   var LANG_KEY = 'snx_lang';
   /* 桌面端安装包地址：部署站点时改这一行（放到站点 downloadable 目录或改成对象存储直链） */
   var DOWNLOAD_URL = 'https://github.com/lizhiping531/stornexus-site/releases/download/v0.1.0/StorNexus-Setup-0.1.0.exe';
-  /* 内测申请收件服务（FormSubmit）：零注册，首次提交后收件邮箱会收到
-     一封确认邮件，点确认即激活。换收件邮箱时改 FORM_TO 即可。 */
-  var FORM_TO = '2101211233@qq.com';
+  /* 内测申请由 FormSubmit 服务端收件（表单 action 指向收件邮箱）。
+     首次提交后收件邮箱会收到一封确认邮件，点确认即激活（一次性）。 */
   /* 网页端控制台地址：网关公网地址定了改这一行，例如 'http://1.2.3.4:9000/drive'
      或 'https://drive.stornexus.cn'。留空 = 控制台尚未公开，页面上的「进入网页版」
      会改为打开内测申请弹窗（避免在 GitHub Pages 子路径部署下被解析成 404）。 */
