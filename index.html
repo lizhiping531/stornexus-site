@@ -1796,15 +1796,15 @@ body.modal-open { overflow: hidden; }
             <path d="M3.6 9h10.8M10.2 4.8 14.4 9l-4.2 4.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </a>
-        <a class="entry-card" href="#client" data-download>
+        <a class="entry-card" href="#beta" data-open-beta>
           <span class="entry-ico" aria-hidden="true">
             <svg viewBox="0 0 20 20" fill="currentColor">
               <path d="M2.8 4.5 9 3.6v6.1H2.8V4.5Zm7.1-1L17.2 2.4v7.3H9.9V3.5ZM2.8 10.7H9v6.1l-6.2-.9v-5.2Zm7.1 0h7.3v7.2l-7.3-1.1v-6.1Z"/>
             </svg>
           </span>
           <span class="entry-body">
-            <b>下载桌面端</b>
-            <small>Windows 10/11 · x64 · 96 MB</small>
+            <b>申请内测 · 获取桌面端</b>
+            <small>Windows 10/11 · x64 · 内测资格发放</small>
           </span>
           <svg class="entry-go" viewBox="0 0 18 18" fill="none" aria-hidden="true">
             <path d="M9 3v8.4m0 0 3.4-3.4M9 11.4 5.6 8M3.6 14.6h10.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
@@ -2000,11 +2000,11 @@ body.modal-open { overflow: hidden; }
         <span class="dl-os">Windows</span>
         <div class="dl-copy">
           <b>Windows 10 / 11 · x64</b>
-          <small><span data-no-i18n>StorNexus-Setup-0.1.0.exe · 96 MB ·</span> 安装过程自动完成环境配置</small>
+          <small>内测资格 · 邮件发放 · 自动完成环境配置</small>
         </div>
       </div>
       <div class="dl-actions">
-        <a class="btn btn-primary" href="#" data-download>下载安装包</a>
+        <a class="btn btn-primary" href="#beta" data-open-beta>申请内测获取安装包</a>
         <a class="btn btn-ghost" href="/drive" data-drive-link>进入网页版</a>
       </div>
     </div>
@@ -2251,7 +2251,7 @@ body.modal-open { overflow: hidden; }
       <div class="modal-head">
         <span class="modal-badge"><i aria-hidden="true"></i>PRIVATE BETA</span>
         <h3 id="modalTitle">申请 StorNexus 内测</h3>
-        <p>填写信息后我们会打开你的邮件客户端，点击发送即可完成申请。内测名额分批开放。</p>
+        <p>填写信息并提交，审核通过后我们会通过邮件发送内测安装包与接入指引。名额分批开放。</p>
       </div>
       <!-- 提交到 FormSubmit（服务端收件转发到邮箱）。换收件邮箱时改 action 里的地址。 -->
       <form class="modal-form" id="betaForm" action="#beta" method="POST" novalidate>
@@ -2504,7 +2504,8 @@ body.modal-open { overflow: hidden; }
 
   /* ---------- Language switch ---------- */
   var LANG_KEY = 'snx_lang';
-  /* 桌面端安装包地址：部署站点时改这一行（放到站点 downloadable 目录或改成对象存储直链） */
+  /* 桌面端安装包：目前内测资格制，官网不放公开下载（按钮已改为引导申请内测）。
+     公开发布时：把按钮改回 data-download，并恢复此处 href 注入逻辑。 */
   var DOWNLOAD_URL = 'https://github.com/lizhiping531/stornexus-site/releases/download/v0.1.0/StorNexus-Setup-0.1.0.exe';
   /* 内测申请收件：自建 Cloudflare Worker（无第三方人机验证页），
      Worker 通过 Resend 把申请转发到 TO_EMAIL。换收件邮箱时，
@@ -2601,7 +2602,7 @@ body.modal-open { overflow: hidden; }
     "服务条款": "Terms of Service",
     "所有系统运行正常": "All systems operational",
     "申请 StorNexus 内测": "Request StorNexus beta access",
-    "填写信息后我们会打开你的邮件客户端，点击发送即可完成申请。内测名额分批开放。": "Submit the form and your mail client opens with a ready-to-send message. Beta seats open in batches.",
+    "填写信息并提交，审核通过后我们会通过邮件发送内测安装包与接入指引。名额分批开放。": "Submit your info and we'll email you the beta installer and onboarding guide once approved. Seats open in batches.",
     "姓名": "Name",
     "邮箱": "Email",
     "提交申请": "Submit request",
@@ -2618,11 +2619,11 @@ body.modal-open { overflow: hidden; }
     "把云空间挂成本地盘符，桌面客户端登录后双击即可读取。": "Mount cloud storage as a local drive and open files straight from your desktop client.",
     "进入网页版": "Open web version",
     "浏览器直接打开，无需安装": "No install, opens in browser",
-    "下载桌面端": "Download app",
-    "Windows 10/11 · x64 · 96 MB": "Windows 10/11 · x64 · 96 MB",
-    "下载安装包": "Download installer",
+    "申请内测 · 获取桌面端": "Apply for Beta Access",
+    "Windows 10/11 · x64 · 内测资格发放": "Windows 10/11 · x64 · Beta only",
+    "申请内测获取安装包": "Apply for Installer",
     "Windows 10 / 11 · x64": "Windows 10 / 11 · x64",
-    "安装过程自动完成环境配置": "Setup configures everything automatically"
+    "内测资格 · 邮件发放 · 自动完成环境配置": "Beta access · Delivered by email · Auto setup"
   };
 
   var ATTR_DICT = {
@@ -2721,10 +2722,6 @@ body.modal-open { overflow: hidden; }
     btn.addEventListener('click', function () {
       applyLang(btn.getAttribute('data-lang'), true);
     });
-  });
-
-  document.querySelectorAll('[data-download]').forEach(function (el) {
-    el.setAttribute('href', DOWNLOAD_URL);
   });
 
   /* 「进入网页版」等控制台入口：统一指向 DRIVE_URL（见上方常量，网关地址定了改那一行）。
