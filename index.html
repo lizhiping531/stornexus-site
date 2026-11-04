@@ -1460,6 +1460,16 @@ p { margin: 0; }
 .modal-fallback a { color: var(--brand); font-weight: 500; text-decoration: none; }
 .modal-fallback a:hover { text-decoration: underline; }
 .modal-success .btn { margin-top: 24px; min-width: 130px; }
+/* 提交失败态：与成功态同构，但用琥珀色告警环，并把「用邮件发送申请」做成主按钮。 */
+.modal-failed .failed-ring {
+  background: linear-gradient(150deg, #FFF9EE, #FFEFD6);
+  border-color: rgba(217, 119, 6, 0.28);
+  box-shadow: 0 12px 30px -14px rgba(217, 119, 6, 0.45);
+  color: #D97706;
+}
+.modal-failed .btn { width: 100%; }
+.modal-failed .modal-fallback { margin-top: 14px; }
+.modal-failed .btn-ghost { margin-top: 14px; min-width: 0; }
 body.modal-open { overflow: hidden; }
 
 /* ---------- Client console showcase ---------- */
@@ -2287,10 +2297,21 @@ body.modal-open { overflow: hidden; }
       </div>
       <h3>申请已提交</h3>
       <p>我们已收到你的内测申请，会尽快通过邮件与你联系。</p>
-      <p class="modal-fallback" id="mailFallback" hidden>
-        提交遇到问题？<a id="mailFallbackLink" href="mailto:2101211233@qq.com">点这里直接发邮件</a>，或发送至 2101211233@qq.com。
-      </p>
       <button class="btn btn-primary" type="button" data-close-modal>完成</button>
+    </div>
+
+    <div class="modal-success modal-failed" id="modalFailed">
+      <div class="success-ring failed-ring">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/>
+          <path d="M12 7.6v5.2M12 16.3v.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <h3>提交未成功</h3>
+      <p>当前网络无法连接申请服务。请直接通过邮件发送申请，我们会第一时间回复。</p>
+      <a class="btn btn-primary" id="mailFallbackLink" href="mailto:2101211233@qq.com">用邮件发送申请</a>
+      <p class="modal-fallback">或复制邮箱地址：2101211233@qq.com</p>
+      <button class="btn btn-ghost btn-sm" type="button" id="betaRetry">返回重新填写</button>
     </div>
   </div>
 </div>
@@ -2374,8 +2395,9 @@ body.modal-open { overflow: hidden; }
   var betaForm = document.getElementById('betaForm');
   var nameInput = document.getElementById('betaName');
   var emailInput = document.getElementById('betaEmail');
-  var mailFallback = document.getElementById('mailFallback');
+  var failedView = document.getElementById('modalFailed');
   var mailFallbackLink = document.getElementById('mailFallbackLink');
+  var retryBtn = document.getElementById('betaRetry');
   var betaSubjectInput = document.getElementById('betaSubject');
   var betaReplyInput = document.getElementById('betaReply');
   var betaNextInput = document.getElementById('betaNext');
@@ -2386,7 +2408,7 @@ body.modal-open { overflow: hidden; }
     lastFocused = document.activeElement;
     formView.hidden = false;
     successView.classList.remove('is-visible');
-    mailFallback.hidden = true;
+    failedView.classList.remove('is-visible');
     betaForm.reset();
     modal.classList.add('is-open');
     modal.setAttribute('aria-hidden', 'false');
@@ -2447,29 +2469,50 @@ body.modal-open { overflow: hidden; }
     }
     function fail() {
       restoreButton();
-      formView.hidden = false;
+      formView.hidden = true;
       successView.classList.remove('is-visible');
-      mailFallback.hidden = false;
+      failedView.classList.add('is-visible');
     }
 
     // 提交到自建 Cloudflare Worker → Resend 转发邮件。无人机验证页。
+    //
+    // 【2026-11-05 大陆网络/移动端】`*.workers.dev` 在大陆直连是被阻断的：
+    // 请求不会立刻报错，而是长时间挂起（实测直连 20s 超时）。没有超时兜底时，
+    // 访客只会看到按钮停在「提交中…」，最后自己把弹窗关掉 —— 申请就此丢失。
+    // 因此这里显式 12s 超时，超时与失败统一进入「提交未成功」态，
+    // 并给出预填好姓名/邮箱的 mailto 一键发信入口。
+    var ctrl = (typeof AbortController === 'function') ? new AbortController() : null;
+    var timer = ctrl ? window.setTimeout(function () { ctrl.abort(); }, 12000) : null;
+    function done() {
+      if (timer) window.clearTimeout(timer);
+      restoreButton();
+    }
+
     fetch(BETA_ENDPOINT, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name: name, email: email }),
+      signal: ctrl ? ctrl.signal : undefined,
     })
       .then(function (res) { return res.json(); })
       .then(function (data) {
-        restoreButton();
+        done();
         if (data && data.ok) {
-          mailFallback.hidden = true;
           formView.hidden = true;
+          failedView.classList.remove('is-visible');
           successView.classList.add('is-visible');
         } else {
           fail();
         }
       })
-      .catch(fail);
+      .catch(function () { done(); fail(); });
+  });
+
+  // 失败态里的「返回重新填写」：回到表单，保留已填内容，方便改完再试。
+  retryBtn.addEventListener('click', function () {
+    failedView.classList.remove('is-visible');
+    formView.hidden = false;
+    nameInput.focus();
   });
   /* ---------- Client console screenshots ---------- */
   var SHOTS = {
@@ -2608,9 +2651,11 @@ body.modal-open { overflow: hidden; }
     "提交即表示你同意我们通过邮件与你联系。我们不会分享你的信息。": "By submitting you agree to be contacted by email. We never share your information.",
     "申请已提交": "Request submitted",
     "我们已收到你的内测申请，会尽快通过邮件与你联系。": "We've received your beta request and will contact you by email shortly.",
-    "提交遇到问题？": "Something went wrong?",
-    "点这里直接发邮件": "Email us directly",
-    "，或发送至 2101211233@qq.com。": ", or send to 2101211233@qq.com.",
+    "提交未成功": "Submission failed",
+    "当前网络无法连接申请服务。请直接通过邮件发送申请，我们会第一时间回复。": "We could not reach the application service from this network. Please send your request by email and we will reply promptly.",
+    "用邮件发送申请": "Send request by email",
+    "或复制邮箱地址：2101211233@qq.com": "Or copy this address: 2101211233@qq.com",
+    "返回重新填写": "Back to the form",
     "完成": "Done",
     "关闭菜单": "Close menu",
     "空间用量、存储状态、本月预估费用与最近文件，一屏看清。": "Usage, storage health, estimated monthly cost and recent files at a glance.",
