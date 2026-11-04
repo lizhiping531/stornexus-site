@@ -1084,7 +1084,7 @@ p { margin: 0; }
   color: #5B7DA6;
 }
 
-.shard-panel {
+.redacted-panel {
   margin-top: 28px;
   display: grid;
   grid-template-columns: 0.9fr 1.1fr;
@@ -1098,16 +1098,16 @@ p { margin: 0; }
   border: 1px solid #E7F1FD;
   box-shadow: 0 24px 60px -44px rgba(15, 40, 80, 0.5);
 }
-.shard-copy h3 { font-size: 22px; letter-spacing: -0.02em; }
-.shard-copy p { margin-top: 12px; font-size: 14.5px; line-height: 1.85; color: var(--muted); }
-.shard-legend { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 22px; font-size: 12px; color: #6E7C8D; }
-.shard-legend span { display: inline-flex; align-items: center; gap: 7px; }
-.shard-legend i { width: 8px; height: 8px; border-radius: 3px; }
-.shard-legend .data { background: var(--brand); box-shadow: 0 2px 6px rgba(22, 119, 255, 0.4); }
-.shard-legend .parity { background: #BFD9FB; border: 1px solid rgba(22, 119, 255, 0.35); }
-.shard-legend .lost { background: #E4E9F0; }
-.shard-visual { position: relative; }
-.shard-group-label {
+.redacted-copy h3 { font-size: 22px; letter-spacing: -0.02em; }
+.redacted-copy p { margin-top: 12px; font-size: 14.5px; line-height: 1.85; color: var(--muted); }
+.redacted-legend { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 22px; font-size: 12px; color: #6E7C8D; }
+.redacted-legend span { display: inline-flex; align-items: center; gap: 7px; }
+.redacted-legend i { width: 8px; height: 8px; border-radius: 3px; }
+.redacted-legend .data { background: var(--brand); box-shadow: 0 2px 6px rgba(22, 119, 255, 0.4); }
+.redacted-legend .sec { background: #BFD9FB; border: 1px solid rgba(22, 119, 255, 0.35); }
+.redacted-legend .lost { background: #E4E9F0; }
+.redacted-visual { position: relative; }
+.redacted-group-label {
   display: flex;
   justify-content: space-between;
   font-size: 10.5px;
@@ -1117,12 +1117,12 @@ p { margin: 0; }
   color: #A0ADBC;
   margin-bottom: 10px;
 }
-.shard-grid {
+.redacted-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 7px;
 }
-.shard {
+.redacted {
   position: relative;
   height: 56px;
   border-radius: 5px;
@@ -1135,29 +1135,29 @@ p { margin: 0; }
   font-weight: 600;
   font-family: 'SFMono-Regular', Consolas, monospace;
   overflow: hidden;
-  animation: shardGlow 4s ease-in-out infinite;
+  animation: redactedGlow 4s ease-in-out infinite;
 }
-.shard.parity {
+.redacted.sec {
   background: linear-gradient(180deg, #EAF3FF, #D6E8FF);
   border: 1px solid rgba(22, 119, 255, 0.28);
   color: #6B8FBF;
   box-shadow: none;
 }
-.shard.lost {
+.redacted.lost {
   background: repeating-linear-gradient(45deg, #EDF2F8 0 6px, #E1E9F3 6px 7px);
   border: 1px dashed #C9D3E0;
   color: #A7B3C1;
   box-shadow: none;
   animation: none;
 }
-.shard:nth-child(2n) { animation-delay: 0.5s; }
-.shard:nth-child(3n) { animation-delay: 1.1s; }
-.shard:nth-child(5n) { animation-delay: 1.8s; }
-@keyframes shardGlow {
+.redacted:nth-child(2n) { animation-delay: 0.5s; }
+.redacted:nth-child(3n) { animation-delay: 1.1s; }
+.redacted:nth-child(5n) { animation-delay: 1.8s; }
+@keyframes redactedGlow {
   0%, 100% { box-shadow: 0 4px 12px -5px rgba(22, 119, 255, 0.65); }
   50% { box-shadow: 0 6px 18px -4px rgba(22, 119, 255, 0.9); }
 }
-.shard-divider {
+.redacted-divider {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -1167,15 +1167,15 @@ p { margin: 0; }
   color: #A0ADBC;
   text-transform: uppercase;
 }
-.shard-divider::before, .shard-divider::after {
+.redacted-divider::before, .redacted-divider::after {
   content: "";
   flex: 1;
   height: 1px;
   background: linear-gradient(90deg, transparent, #DCE8F7);
 }
-.shard-divider::after { background: linear-gradient(90deg, #DCE8F7, transparent); }
-.shard-grid.parity-grid { grid-template-columns: repeat(6, 1fr); }
-.shard-status {
+.redacted-divider::after { background: linear-gradient(90deg, #DCE8F7, transparent); }
+.redacted-grid.sec-grid { grid-template-columns: repeat(6, 1fr); }
+.redacted-status {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -1188,9 +1188,9 @@ p { margin: 0; }
   font-weight: 600;
   color: #15803D;
 }
-.shard-status svg { width: 13px; height: 13px; }
+.redacted-status svg { width: 13px; height: 13px; }
 
-/* ---------- Locked shard teaser (beta only) ---------- */
+/* ---------- Locked redacted teaser (beta only) ---------- */
 .lock-badge {
   display: inline-flex;
   align-items: center;
@@ -1205,12 +1205,12 @@ p { margin: 0; }
   border: 1px solid rgba(22, 119, 255, 0.24);
 }
 .lock-badge svg { width: 11px; height: 11px; }
-.shard-blur {
+.redacted-blur {
   filter: blur(7px) saturate(0.55);
   opacity: 0.5;
   user-select: none;
 }
-.shard-lock {
+.redacted-lock {
   position: absolute;
   inset: 0;
   display: flex;
@@ -1219,7 +1219,7 @@ p { margin: 0; }
   justify-content: center;
   gap: 13px;
 }
-.shard-lock-ico {
+.redacted-lock-ico {
   width: 54px;
   height: 54px;
   border-radius: 17px;
@@ -1230,14 +1230,14 @@ p { margin: 0; }
   background: linear-gradient(135deg, #3D9BFF 0%, #1677FF 55%, #0958D9 100%);
   box-shadow: 0 14px 32px rgba(22, 119, 255, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.35);
 }
-.shard-lock-ico svg { width: 23px; height: 23px; }
-.shard-lock-txt {
+.redacted-lock-ico svg { width: 23px; height: 23px; }
+.redacted-lock-txt {
   font-size: 10.5px;
   letter-spacing: 0.34em;
   font-weight: 700;
   color: #5B6B7C;
 }
-.shard-cta { margin-top: 22px; }
+.redacted-cta { margin-top: 22px; }
 
 /* ---------- Final CTA ---------- */
 .cta-section { padding: 24px 0 108px; }
@@ -1602,7 +1602,7 @@ body.modal-open { overflow: hidden; }
   .edge-panel { grid-template-columns: 1fr; gap: 34px; padding: 44px 38px; }
   .edge-map-wrap { order: -1; }
   .netmap { width: min(100%, 360px); }
-  .shard-panel { grid-template-columns: 1fr; gap: 30px; padding: 34px 32px; }
+  .redacted-panel { grid-template-columns: 1fr; gap: 30px; padding: 34px 32px; }
   .hero { padding-top: calc(var(--nav-h) + 76px); }
 }
 @media (max-width: 900px) {
@@ -1662,10 +1662,10 @@ body.modal-open { overflow: hidden; }
   .edge-panel { padding: 32px 22px; border-radius: 18px; }
   .netmap { width: min(100%, 300px); }
   .edge-metrics { gap: 22px; }
-  .shard-panel { padding: 28px 22px; border-radius: 18px; }
-  .shard-grid { gap: 5px; }
-  .shard { font-size: 8px; border-radius: 4px; height: 34px; }
-  .shard-copy h3 { font-size: 19px; }
+  .redacted-panel { padding: 28px 22px; border-radius: 18px; }
+  .redacted-grid { gap: 5px; }
+  .redacted { font-size: 8px; border-radius: 4px; height: 34px; }
+  .redacted-copy h3 { font-size: 19px; }
   .cta-band { padding: 46px 24px; border-radius: 18px; }
   .site-footer { padding: 40px 0 30px; }
   .footer-top { padding-bottom: 26px; }
@@ -1673,7 +1673,7 @@ body.modal-open { overflow: hidden; }
   .footer-bottom { flex-direction: column; align-items: flex-start; }
   .modal-card { padding: 30px 22px 26px; border-radius: 18px; }
   .modal-head h3 { font-size: 22px; }
-  .shard-visual { overflow-x: hidden; }
+  .redacted-visual { overflow-x: hidden; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -1822,23 +1822,23 @@ body.modal-open { overflow: hidden; }
         </span>
         <span>
           <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 14s4.6-3.5 4.6-7.1A4.6 4.6 0 0 0 8 2.3a4.6 4.6 0 0 0-4.6 4.6C3.4 10.5 8 14 8 14Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><circle cx="8" cy="6.9" r="1.6" stroke="currentColor" stroke-width="1.2"/></svg>
-          全球分布式网络
+          全球高速网络
         </span>
       </div>
     </div>
 
     <div class="hero-stats reveal" style="--d: 280ms">
       <div class="hero-stat">
-        <div class="num">多重<em>冗余</em></div>
-        <div class="label">分片容错</div>
+        <div class="num">永不丢失</div>
+        <div class="label">设计使然</div>
       </div>
       <div class="hero-stat">
         <div class="num">银行级</div>
-        <div class="label">端到端加密</div>
+        <div class="label">全程私密</div>
       </div>
       <div class="hero-stat">
         <div class="num">自研</div>
-        <div class="label">存储内核</div>
+        <div class="label">全栈技术</div>
       </div>
       <div class="hero-stat">
         <div class="num">秒级</div>
@@ -1854,7 +1854,7 @@ body.modal-open { overflow: hidden; }
     <div class="section-head center reveal">
       <div class="eyebrow">Product Architecture</div>
       <h2 class="section-title">一块硬盘，连接<span class="accent">整张存储网络</span></h2>
-      <p class="section-desc">从系统级挂载到全球分布式调度，StorNexus 把分散的存储资源，组织成一块随时可用的虚拟硬盘。</p>
+      <p class="section-desc">从系统底层到全球调度，复杂性全部由 StorNexus 消化 —— 你看到的，只有一块随时可用的虚拟硬盘。</p>
     </div>
 
     <div class="arch-flow">
@@ -1869,7 +1869,7 @@ body.modal-open { overflow: hidden; }
       <div class="flow-step reveal" style="--d: 80ms">
         <span class="idx">02</span>
         <div class="txt">
-          <div class="name">分布式网络</div>
+          <div class="name">全球网络</div>
           <div class="en">Network</div>
         </div>
         <span class="flow-dot" aria-hidden="true"></span>
@@ -1885,8 +1885,8 @@ body.modal-open { overflow: hidden; }
       <div class="flow-step reveal" style="--d: 240ms">
         <span class="idx">04</span>
         <div class="txt">
-          <div class="name">加密分片</div>
-          <div class="en">Encrypted Shards</div>
+          <div class="name">安全存储</div>
+          <div class="en">Secure Storage</div>
         </div>
       </div>
     </div>
@@ -1903,10 +1903,10 @@ body.modal-open { overflow: hidden; }
           <span class="card-no">01</span>
         </div>
         <h3>Agent 原生存储接口</h3>
-        <p>标准协议 API 直接接入，智能体自己读写数据，无需人工搬运。</p>
+        <p>开放 API 直接接入，智能体自己读写数据，无需人工搬运。</p>
         <div class="card-foot">
           <span class="dot" aria-hidden="true"></span>
-          协议直连
+          API 直连
           <span class="tail">AGENT · API</span>
         </div>
       </article>
@@ -1942,12 +1942,12 @@ body.modal-open { overflow: hidden; }
           </span>
           <span class="card-no">03</span>
         </div>
-        <h3>协议级可靠性</h3>
-        <p>端到端加密与多重冗余纠删，部分分片丢失仍可完整重建。</p>
+        <h3>工程级可靠性</h3>
+        <p>全程私密传输，极端情况下文件依然完整可用。</p>
         <div class="card-foot">
           <span class="dot" aria-hidden="true"></span>
-          零信任架构
-          <span class="tail">ENCRYPTED · REDUNDANT</span>
+          默认私密
+          <span class="tail">PRIVATE · RELIABLE</span>
         </div>
       </article>
     </div>
@@ -2018,11 +2018,11 @@ body.modal-open { overflow: hidden; }
       <div class="edge-copy">
         <div class="eyebrow">Global Network</div>
         <h2>你的数据，<br /><span class="accent">始终走在最近的路上</span></h2>
-        <p>StorNexus 把分布在全球的存储资源组织成一张统一网络。无论你和你的智能体身在何处，读写始终经由最近的节点完成，速度与稳定性同时兼顾。</p>
+        <p>StorNexus 在全球范围组织起一张统一的存储网络。无论你和你的智能体身在何处，读写始终经由最近的路径完成，速度与稳定性同时兼顾。</p>
         <div class="edge-metrics">
           <div class="edge-metric">
             <div class="v">全球</div>
-            <div class="k">分布式网络</div>
+            <div class="k">全球网络</div>
           </div>
           <div class="edge-metric">
             <div class="v">就近</div>
@@ -2062,7 +2062,7 @@ body.modal-open { overflow: hidden; }
         </div>
         <div class="netmap-caption">
           <i aria-hidden="true"></i>
-          全球节点实时接入 · 就近读写
+          全球网络实时在线 · 就近读写
         </div>
       </div>
     </div>
@@ -2074,8 +2074,8 @@ body.modal-open { overflow: hidden; }
   <div class="container">
     <div class="section-head center reveal">
       <div class="eyebrow">Engineering Moat</div>
-      <h2 class="section-title">把数据可靠性，<span class="accent">写进协议底层</span></h2>
-      <p class="section-desc">从存储内核到传输协议全部自研，以多重冗余纠删保证数据永不丢失，断网自动重传。可靠性不是承诺，而是工程实现。</p>
+      <h2 class="section-title">把数据可靠性，<span class="accent">写进设计底层</span></h2>
+      <p class="section-desc">全栈自研，数据永不丢失，断网自动续传。可靠性不是承诺，而是设计。</p>
       <p class="moat-note">同一份数据，不同的智能体与客户端都能直接读写 —— 不用导出、不用转换、不用重训。</p>
     </div>
 
@@ -2087,9 +2087,9 @@ body.modal-open { overflow: hidden; }
             <path d="M8.2 9.4v5.2M12 8v8M15.8 9.4v5.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
           </svg>
         </span>
-        <h3>自研存储内核</h3>
-        <p>从存储引擎到网络调度全部自研，内存安全与高吞吐 I/O 兼顾，长时间高负载运行依旧稳定。</p>
-        <div class="moat-tag">SELF-DEVELOPED · MEMORY SAFE</div>
+        <h3>自研全栈</h3>
+        <p>从底层技术到全球调度全部自研，长时间高负载运行依旧稳定。每一行代码都在自己手里。</p>
+        <div class="moat-tag">SELF-DEVELOPED · FULL STACK</div>
       </article>
 
       <article class="moat-card reveal" style="--d: 80ms">
@@ -2101,9 +2101,9 @@ body.modal-open { overflow: hidden; }
             <path d="M13.4 17.6h7.6M17.2 14v7.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
           </svg>
         </span>
-        <h3>多重冗余纠删</h3>
-        <p>文件被切分为数据块与校验块分散存储，即使多个分片同时丢失，依然可以完整重建原始文件，利用率与可靠性同时兼顾。</p>
-        <div class="moat-tag">ERASURE CODING</div>
+        <h3>永不丢失</h3>
+        <p>即使极端情况下部分设施同时失效，你的文件依然完整可用。至于如何做到 —— 那是我们最重要的机密。</p>
+        <div class="moat-tag">ZERO-LOSS DESIGN</div>
       </article>
 
       <article class="moat-card reveal" style="--d: 160ms">
@@ -2115,72 +2115,73 @@ body.modal-open { overflow: hidden; }
           </svg>
         </span>
         <h3>断网自动重传</h3>
-        <p>节点离线时任务自动切换副本，网络恢复后增量重传，传输不中断，文件不会因单点故障而损坏。</p>
+        <p>网络波动时任务自动保护，恢复后从断点继续 —— 文件不会因中途断网而损坏。</p>
         <div class="moat-tag">AUTO RETRY · RESUME</div>
       </article>
     </div>
 
-    <div class="shard-panel reveal">
-      <div class="shard-copy">
+    <div class="redacted-panel reveal">
+      <div class="redacted-copy">
         <span class="lock-badge" data-no-i18n>
           <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="3.2" y="7" width="9.6" height="6.6" rx="1.6" stroke="currentColor" stroke-width="1.3"/><path d="M5.4 7V5.2a2.6 2.6 0 0 1 5.2 0V7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
           CLASSIFIED
         </span>
-        <h3>核心冗余参数 · 内测解锁</h3>
-        <p>每个文件在写入前都会被切片并生成校验分片，分散存储于全球网络。完整的冗余比例、容错阈值与重建机制，仅向内测伙伴开放 —— 申请内测，即可获取完整技术白皮书。</p>
-        <div class="shard-legend">
-          <span><i class="data"></i>数据分片</span>
-          <span><i class="parity"></i>校验分片</span>
-          <span><i class="lost"></i>离线分片</span>
+        <h3>核心设计 · 内测解锁</h3>
+        <p>数据如何做到永不丢失，是 StorNexus 最核心的设计。细节仅收录于内测版技术白皮书 —— 申请内测，成为第一批读者。</p>
+        <div class="redacted-legend">
+          <span><i class="data"></i>核心设计</span>
+          <span><i class="sec"></i>已模糊处理</span>
+          <span><i class="lost"></i>内测解锁</span>
         </div>
-        <div class="shard-status">
+        <div class="redacted-status">
           <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="6.2" stroke="currentColor" stroke-width="1.3"/><path d="m5.4 8.1 1.8 1.8 3.4-3.4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          冗余机制运行中 · 具体参数内测开放
+          具体内容 · 仅向内测伙伴开放
         </div>
-        <button class="btn btn-primary shard-cta" type="button" data-open-beta>
+        <button class="btn btn-primary redacted-cta" type="button" data-open-beta>
           申请内测解锁
           <svg class="btn-arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true">
             <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </button>
       </div>
-      <div class="shard-visual is-locked" aria-hidden="true">
-        <div class="shard-blur">
-          <div class="shard-group-label">
-            <span>Data Shards</span>
-            <span>x ??</span>
+      <div class="redacted-visual is-locked" aria-hidden="true">
+        <div class="redacted-blur">
+          <div class="redacted-group-label" data-no-i18n>
+            <span>████████</span>
+            <span>████</span>
           </div>
-          <div class="shard-grid data-grid">
-            <div class="shard">01</div>
-            <div class="shard">02</div>
-            <div class="shard">03</div>
-            <div class="shard">04</div>
-            <div class="shard lost">X</div>
-            <div class="shard">06</div>
-            <div class="shard">07</div>
-            <div class="shard">08</div>
-            <div class="shard">09</div>
-            <div class="shard">10</div>
+          <div class="redacted-grid data-grid">
+            <div class="redacted">██</div>
+            <div class="redacted">██</div>
+            <div class="redacted">██</div>
+            <div class="redacted">██</div>
+            <div class="redacted lost">██</div>
+            <div class="redacted">██</div>
+            <div class="redacted">██</div>
+            <div class="redacted">██</div>
+            <div class="redacted">██</div>
+            <div class="redacted">██</div>
+            <div class="redacted">██</div>
+            <div class="redacted">██</div>
           </div>
-          <div class="shard-divider">Parity</div>
-          <div class="shard-group-label">
-            <span>Parity Shards</span>
-            <span>x ??</span>
+          <div class="redacted-divider" data-no-i18n>█████</div>
+          <div class="redacted-group-label" data-no-i18n>
+            <span>██████████</span>
+            <span>████</span>
           </div>
-          <div class="shard-grid parity-grid">
-            <div class="shard parity">P1</div>
-            <div class="shard parity">P2</div>
-            <div class="shard parity">P3</div>
-            <div class="shard parity">P4</div>
-            <div class="shard parity">P5</div>
-            <div class="shard parity">P6</div>
+          <div class="redacted-grid sec-grid">
+            <div class="redacted sec">██</div>
+            <div class="redacted sec">██</div>
+            <div class="redacted sec">██</div>
+            <div class="redacted sec">██</div>
+            <div class="redacted sec">██</div>
           </div>
         </div>
-        <div class="shard-lock">
-          <span class="shard-lock-ico">
+        <div class="redacted-lock">
+          <span class="redacted-lock-ico">
             <svg viewBox="0 0 24 24" fill="none"><rect x="5" y="10.4" width="14" height="9.2" rx="2.4" stroke="currentColor" stroke-width="1.7"/><path d="M8.4 10.4V7.8a3.6 3.6 0 0 1 7.2 0v2.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="12" cy="15" r="1.5" fill="currentColor"/></svg>
           </span>
-          <span class="shard-lock-txt" data-no-i18n>BETA&nbsp;ONLY</span>
+          <span class="redacted-lock-txt" data-no-i18n>BETA&nbsp;ONLY</span>
         </div>
       </div>
     </div>
@@ -2533,33 +2534,32 @@ body.modal-open { overflow: hidden; }
     "智能体云空间服务商 · Agent to Agent 原生存储": "Agent cloud storage · native Agent-to-Agent storage",
     "内测名额分批开放": "Beta access in waves",
     "3 分钟完成接入": "Onboard in 3 minutes",
-    "全球分布式网络": "Global distributed network",
-    "多重": "Multi-layer",
-    "冗余": "redundancy",
-    "分片容错": "Shard fault tolerance",
+    "全球高速网络": "Global high-speed network",
+    "永不丢失": "Never lost",
+    "设计使然": "By design",
     "银行级": "Bank-grade",
-    "端到端加密": "End-to-end encryption",
+    "全程私密": "Complete privacy",
     "自研": "In-house",
-    "存储内核": "Storage core",
+    "全栈技术": "Full-stack technology",
     "秒级": "Second-level",
     "弹性扩容": "Elastic scaling",
     "全球": "Global",
     "容量扩展": "Capacity scaling",
     "一块硬盘，连接": "One drive, ",
     "整张存储网络": "the whole storage network",
-    "从系统级挂载到全球分布式调度，StorNexus 把分散的存储资源，组织成一块随时可用的虚拟硬盘。": "From OS-level mounts to global distributed scheduling, StorNexus turns scattered storage into one virtual drive that is always ready.",
+    "从系统底层到全球调度，复杂性全部由 StorNexus 消化 —— 你看到的，只有一块随时可用的虚拟硬盘。": "From the system layer up to global scheduling, StorNexus absorbs all the complexity — all you see is one virtual drive, always ready.",
     "本地客户端": "Desktop client",
     "智能调度": "Smart scheduling",
-    "加密分片": "Encrypted shards",
+    "安全存储": "Secure storage",
     "Agent 原生存储接口": "Agent-native storage API",
-    "标准协议 API 直接接入，智能体自己读写数据，无需人工搬运。": "Agents read and write directly through standard protocol APIs — no manual data shuffling.",
-    "协议直连": "Direct protocol access",
+    "开放 API 直接接入，智能体自己读写数据，无需人工搬运。": "Agents read and write directly through open APIs — no manual data shuffling.",
+    "API 直连": "Direct API access",
     "跨平台数据统一": "One dataset, any platform",
     "同一份数据集，在不同 AI 平台之间共享，不导出、不转换、不重训。": "Share one dataset across AI platforms — no export, no conversion, no retraining.",
     "零迁移成本": "Zero migration",
-    "协议级可靠性": "Reliability by protocol",
-    "端到端加密与多重冗余纠删，部分分片丢失仍可完整重建。": "End-to-end encryption and multi-layer erasure redundancy rebuild any file even after partial shard loss.",
-    "零信任架构": "Zero-trust design",
+    "工程级可靠性": "Engineering-grade reliability",
+    "全程私密传输，极端情况下文件依然完整可用。": "Private transfers throughout — files stay intact and available even under extreme conditions.",
+    "默认私密": "Private by default",
     "一个控制台，": "One console, ",
     "看清整块虚拟硬盘": "your entire virtual drive",
     "空间用量、文件管理、虚拟硬盘挂载，全部集中在同一个控制台里，不用命令行也能上手。": "Usage, files and virtual drive mounts live in a single console — no command line required.",
@@ -2568,30 +2568,29 @@ body.modal-open { overflow: hidden; }
     "虚拟硬盘": "Virtual Drive",
     "你的数据，": "Your data, ",
     "始终走在最近的路上": "always takes the shortest path",
-    "StorNexus 把分布在全球的存储资源组织成一张统一网络。无论你和你的智能体身在何处，读写始终经由最近的节点完成，速度与稳定性同时兼顾。": "StorNexus organizes storage resources around the world into one unified network. Wherever you and your agents are, reads and writes always go through the nearest node — speed and stability together.",
-    "分布式网络": "distributed network",
+    "StorNexus 在全球范围组织起一张统一的存储网络。无论你和你的智能体身在何处，读写始终经由最近的路径完成，速度与稳定性同时兼顾。": "StorNexus organizes one unified storage network across the globe. Wherever you and your agents are, reads and writes always take the shortest path — speed and stability together.",
+    "全球网络": "Global network",
     "就近": "Nearest",
     "华东 · 在线": "East China · online",
     "北美 · 在线": "North America · online",
     "欧洲 · 在线": "Europe · online",
     "东南亚 · 在线": "Southeast Asia · online",
-    "全球节点实时接入 · 就近读写": "Global nodes join live · read and write locally",
+    "全球网络实时在线 · 就近读写": "Global network always online · read and write locally",
     "把数据可靠性，": "Data reliability, ",
-    "写进协议底层": "built into the protocol",
-    "从存储内核到传输协议全部自研，以多重冗余纠删保证数据永不丢失，断网自动重传。可靠性不是承诺，而是工程实现。": "A self-developed stack from storage core to transfer protocol, with multi-layer erasure redundancy and automatic retry after network loss. Reliability here is engineering, not a promise.",
+    "写进设计底层": "built into the design",
+    "全栈自研，数据永不丢失，断网自动续传。可靠性不是承诺，而是设计。": "A fully self-developed stack. No data loss, ever. Interrupted transfers resume automatically. Reliability here is not a promise — it's by design.",
     "同一份数据，不同的智能体与客户端都能直接读写 —— 不用导出、不用转换、不用重训。": "The same data can be read and written directly by different agents and clients — no export, no conversion, no retraining.",
-    "自研存储内核": "Self-developed core",
-    "从存储引擎到网络调度全部自研，内存安全与高吞吐 I/O 兼顾，长时间高负载运行依旧稳定。": "Storage engine and network scheduler are built entirely in-house, pairing memory safety with high-throughput I/O for stable long-running load.",
-    "多重冗余纠删": "Multi-layer erasure coding",
-    "文件被切分为数据块与校验块分散存储，即使多个分片同时丢失，依然可以完整重建原始文件，利用率与可靠性同时兼顾。": "Files are split into data and parity shards stored across the network; even with multiple shards lost at once, the original file can be fully rebuilt — capacity and durability together.",
+    "自研全栈": "Self-developed full stack",
+    "从底层技术到全球调度全部自研，长时间高负载运行依旧稳定。每一行代码都在自己手里。": "Everything from core technology to global scheduling is built in-house and stays stable under sustained heavy load. Every line of code is ours.",
+    "即使极端情况下部分设施同时失效，你的文件依然完整可用。至于如何做到 —— 那是我们最重要的机密。": "Even if parts of the infrastructure fail at the same time, your files stay intact and available. How we do it — that's our most important secret.",
     "断网自动重传": "Automatic retry",
-    "节点离线时任务自动切换副本，网络恢复后增量重传，传输不中断，文件不会因单点故障而损坏。": "When a node goes offline the task switches to another replica; once the network returns, only the missing parts are retransmitted.",
-    "核心冗余参数 · 内测解锁": "Core redundancy parameters · unlock with beta",
-    "每个文件在写入前都会被切片并生成校验分片，分散存储于全球网络。完整的冗余比例、容错阈值与重建机制，仅向内测伙伴开放 —— 申请内测，即可获取完整技术白皮书。": "Every file is sliced and paired with parity shards before writing, then stored across the global network. Full redundancy ratios, fault thresholds and rebuild mechanics are open to beta partners only — apply to get the complete technical whitepaper.",
-    "数据分片": "Data shards",
-    "校验分片": "Parity shards",
-    "离线分片": "Offline shard",
-    "冗余机制运行中 · 具体参数内测开放": "Redundancy active · parameters open in beta",
+    "网络波动时任务自动保护，恢复后从断点继续 —— 文件不会因中途断网而损坏。": "Transfers are protected against network drops and resume from where they stopped — a broken connection never corrupts your files.",
+    "核心设计 · 内测解锁": "Core design · unlock with beta",
+    "数据如何做到永不丢失，是 StorNexus 最核心的设计。细节仅收录于内测版技术白皮书 —— 申请内测，成为第一批读者。": "How data achieves zero loss is StorNexus's most core design. The details live only in the beta technical whitepaper — apply for beta access and be among the first to read it.",
+    "核心设计": "Core design",
+    "已模糊处理": "Redacted",
+    "内测解锁": "Unlock in beta",
+    "具体内容 · 仅向内测伙伴开放": "Details · available to beta partners only",
     "申请内测解锁": "Apply to unlock",
     "让你的智能体，接入": "Let your agents tap into ",
     "一块共享存储": "one shared storage",
